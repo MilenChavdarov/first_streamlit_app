@@ -37,8 +37,9 @@ my_data_row = my_cur.fetchone()
 st.text("Hello from Snowflake:")
 st.text(my_data_row)
 
-my_curr.execute("select * from FRUIT_LOAD_LIST")
-my_data_row = my_cur.fetchone()
+my_cur1 = my_cnx.cursor()
+my_curr1.execute("select * from FRUIT_LOAD_LIST")
+my_data_row = my_cur1.fetchone()
 st.text("The fruit list contains::")
 st.text(my_data_row)
 
