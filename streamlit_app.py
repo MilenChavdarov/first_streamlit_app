@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as p
 import requests as r
 import snowflake.connector
+from urllib.error import URLError
 
 st.title("Breakfast Favourites")
 
@@ -20,16 +21,21 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 st.dataframe(fruits_to_show)
 
 st.header("Fruityvice Fruit Advice!")
-fruit_choice = st.text_input('What fruit would you like information about?','Kiwi')
-st.write('The user entered ', fruit_choice)
+try:
+    fruit_choice = st.text_input('What fruit would you like information about?','Kiwi')
+    if not fruit_choice:
+        st.error("Select a food to get information!")
+    else:
+        st.write('The user entered ', fruit_choice)
+        fruityvice_response = r.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+        # write your own comment -what does the next line do? 
+        fruityvice_normalized = p.json_normalize(fruityvice_response.json())
+        # write your own comment - what does this do?
+        st.dataframe(fruityvice_normalized)        
+except URLError as e:
+    st.error(e)
 
-fruityvice_response = r.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-
-# write your own comment -what does the next line do? 
-fruityvice_normalized = p.json_normalize(fruityvice_response.json())
-# write your own comment - what does this do?
-st.dataframe(fruityvice_normalized)
-
+st.stop()
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
