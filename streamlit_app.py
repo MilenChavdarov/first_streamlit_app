@@ -44,3 +44,5 @@ st.text(my_data_rows)
 
 add_my_fruit = st.text_input("What fruit would you like to add?", 'Apple')
 st.write("The fruit " + add_my_fruit + " is added.")
+
+my_cur.execute("insert into fruit_load_list values('from streamlit + '" + add_my_fruit + "')")
