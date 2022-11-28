@@ -37,12 +37,12 @@ my_data_row = my_cur.fetchone()
 st.text("Hello from Snowflake:")
 st.text(my_data_row)
 
-my_cur.execute("select * from FRUIT_LOAD_LIST")
-my_data_rows = my_cur.fetchall()
-st.text("The fruit list contains:")
-st.text(my_data_rows)
-
 add_my_fruit = st.text_input("What fruit would you like to add?", 'Apple')
 st.write("The fruit " + add_my_fruit + " is added.")
 
 my_cur.execute("insert into fruit_load_list values('from streamlit " + add_my_fruit + "')")
+
+my_cur.execute("select * from FRUIT_LOAD_LIST")
+my_data_rows = my_cur.fetchall()
+st.text("The fruit list contains:")
+st.text(my_data_rows)
