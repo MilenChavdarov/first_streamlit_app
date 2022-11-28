@@ -42,3 +42,6 @@ my_data_rows = my_cur.fetchall()
 st.text("The fruit list contains:")
 st.text(my_data_rows)
 
+add_my_fruit = st.text_input("What fruit would you like to add?", 'Apple')
+st.write("The fruit " + add_my_fruit + " is added.")
+
